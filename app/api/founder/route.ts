@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 export async function OPTIONS() { return new Response(null, { status: 204, headers: cors }); }
 
 /**
- * Codes fondateurs : liste dans la variable FOUNDER_CODES (séparés par des virgules, ex. "TECKEL-2026,SAUSAGE-2027").
+ * Codes fondateurs : liste dans la variable FOUNDER_CODES (séparés par des virgules, ex. "TECKEL-2026,FONDATEUR-2027").
  * Chaque code est utilisable FOUNDER_CODE_USES fois (défaut 500). Le compteur vit dans la table founder_codes si Supabase est branché, sinon validation simple.
  */
 export async function POST(req: Request) {

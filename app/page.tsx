@@ -16,7 +16,7 @@ export default function Page() {
             <Logo size={46} />
             Stan &amp; Will
           </a>
-          <span className="badge">Paris Sausage Walk · 4 octobre 2026</span>
+          <span className="badge">Prévention santé personnalisée par race</span>
         </header>
 
         <section className="hero">

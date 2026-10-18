@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const email = String(body.email || "").trim().toLowerCase();
   const dog = String(body.dog || "").trim().slice(0, 40);
   const breed = String(body.breed || "").trim().slice(0, 40);
-  const SOURCES = ["site", "app-bilan", "paris-sausage-walk-2026", "qr"];
+  const SOURCES = ["site", "app-bilan", "evenement", "qr"];
   const source = SOURCES.includes(String(body.source)) ? String(body.source) : "site";
   if (!EMAIL_RE.test(email)) return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   if (!body.consent) return NextResponse.json({ error: "consent_required" }, { status: 400 });
