@@ -124,7 +124,7 @@ export default function Page() {
 
         <footer className="footer">
           <div>
-            © 2026 Stan &amp; Will · Édité par Pixglass SRL (Belgique) · <a href="/confidentialite">Confidentialité</a>
+            © 2026 Stan &amp; Will · Édité par Eureca Design SRL (Belgique) · <a href="/confidentialite">Confidentialité</a>
           </div>
           <div>
             contact : <a href="mailto:bonjour@stanandwill.com">bonjour@stanandwill.com</a> · Instagram &amp; TikTok : @stanandwill

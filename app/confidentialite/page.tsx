@@ -12,7 +12,7 @@ export default function Confidentialite() {
       <p style={{ color: "var(--texte-doux)", marginBottom: 18 }}>Version du 3 octobre 2026 — liste d'attente avant lancement.</p>
 
       <h2 style={h2}>Qui traite vos données</h2>
-      <p style={p}>Pixglass SRL (Belgique), éditeur de Stan &amp; Will. Contact : bonjour@stanandwill.com.</p>
+      <p style={p}>Eureca Design SRL (Belgique), éditeur de Stan &amp; Will. Contact : bonjour@stanandwill.com.</p>
 
       <h2 style={h2}>Ce que nous collectons</h2>
       <p style={p}>Votre adresse e-mail, et si vous le souhaitez le prénom et la race de votre chien, ainsi que la date et la source de votre inscription. Rien d'autre.</p>

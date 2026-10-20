@@ -69,7 +69,7 @@ export async function POST(req: Request) {
         "Frédéric, Stan (7 ans, poil dur) et Will (3 ans, poil ras)",
         "",
         "—",
-        "Stan & Will est édité par Pixglass SRL. Vos données sont hébergées en Europe et ne sont jamais revendues. Pour vous désinscrire, répondez « stop » à cet e-mail.",
+        "Stan & Will est édité par Eureca Design SRL. Vos données sont hébergées en Europe et ne sont jamais revendues. Pour vous désinscrire, répondez « stop » à cet e-mail.",
       ].join("\n"),
     });
   } catch (e) {
