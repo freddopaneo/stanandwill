@@ -1,5 +1,5 @@
 /**
- * Utilitaires serveur partagés par les routes /api/* (fonctions Netlify, région fra1).
+ * Utilitaires serveur partagés par les routes /api/* (fonctions Vercel, région fra1).
  * - Authentification facultative par jeton Supabase (Bearer) : identifie l'utilisateur pour les quotas, jamais transmis au modèle.
  * - Minimisation : le profil du chien est réduit aux champs utiles avant d'être envoyé à Claude.
  * - Triage : règles déterministes AVANT le modèle, pour que les urgences ne dépendent jamais de l'IA.
@@ -112,12 +112,30 @@ export function serviceClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-export function json(data: unknown, status = 200) {
-  return NextResponse.json(data, { status, headers: { "cache-control": "no-store" } });
-}
-
+/**
+ * En-têtes CORS : l'app web (PWA) est servie depuis un autre domaine que ce serveur, et un navigateur refuse de lire
+ * une réponse qui ne les porte pas. L'origine « * » est sans risque ici : l'authentification passe par un jeton
+ * envoyé explicitement (Bearer), jamais par des cookies.
+ */
 export const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "content-type, authorization",
 };
+
+export function json(data: unknown, status = 200) {
+  return NextResponse.json(data, { status, headers: { "cache-control": "no-store", ...cors } });
+}
+
+/** Comme userIdFrom, avec l'e-mail (pré-remplissage de la page de paiement). */
+export async function userFrom(req: Request): Promise<{ id: string; email: string | null } | null> {
+  const auth = req.headers.get("authorization");
+  const url = process.env.SUPABASE_URL;
+  const anon = process.env.SUPABASE_ANON_KEY;
+  if (!auth?.startsWith("Bearer ") || !url || !anon) return null;
+  try {
+    const sb = createClient(url, anon, { global: { headers: { Authorization: auth } } });
+    const { data } = await sb.auth.getUser();
+    return data.user ? { id: data.user.id, email: data.user.email ?? null } : null;
+  } catch { return null; }
+}
