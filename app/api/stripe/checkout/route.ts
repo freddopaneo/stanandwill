@@ -1,5 +1,5 @@
 import { cors, json, serviceClient, userFrom } from "../../../../lib/server";
-import { TRIAL_DAYS, appOrigin, isOffer, priceIdFor, stripe, type OfferId } from "../../../../lib/stripe";
+import { appOrigin, isOffer, launchActive, launchCoupon, priceIdFor, stripe, type OfferId } from "../../../../lib/stripe";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["fra1"];
@@ -37,17 +37,18 @@ export async function POST(req: Request) {
     const price = await priceIdFor(s, offer);
     if (!price) return json({ error: "not_configured", detail: "price_missing" }, 503);
 
-    // Un seul essai gratuit par compte : un client Stripe déjà connu a déjà eu le sien.
-    const trialDays = customerId ? undefined : TRIAL_DAYS[offer];
+    // Prix de lancement sur l'annuel : la réduction est posée par le serveur, le client n'a aucun code à saisir.
+    const coupon = offer === "annual" && launchActive() ? await launchCoupon(s) : null;
 
     const session = await s.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price, quantity: 1 }],
       client_reference_id: user.id,
       ...(customerId ? { customer: customerId } : user.email ? { customer_email: user.email } : {}),
-      subscription_data: { metadata: { user_id: user.id, offer }, ...(trialDays ? { trial_period_days: trialDays } : {}) },
+      subscription_data: { metadata: { user_id: user.id, offer } },
       metadata: { user_id: user.id, offer },
-      allow_promotion_codes: true,
+      // Stripe n'accepte pas à la fois une réduction posée d'office et la saisie d'un code promo.
+      ...(coupon ? { discounts: [{ coupon }] } : { allow_promotion_codes: true }),
       locale: "fr",
       ...(process.env.STRIPE_TAX === "1" ? { automatic_tax: { enabled: true } } : {}),
       success_url: `${origin}/paywall?checkout=success&offer=${offer}`,

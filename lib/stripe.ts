@@ -18,8 +18,21 @@ export type OfferId = "annual" | "monthly" | "weekly";
 export const LOOKUP_KEYS: Record<OfferId, string> = { annual: "sw_annual_4999", monthly: "sw_monthly_999", weekly: "sw_weekly_699" };
 const PRICE_ENV: Record<OfferId, string> = { annual: "STRIPE_PRICE_ANNUAL", monthly: "STRIPE_PRICE_MONTHLY", weekly: "STRIPE_PRICE_WEEKLY" };
 
-/** Essai gratuit : 2 mois offerts sur l'offre annuelle (carte enregistrée, premier prélèvement à la fin de l'essai). */
-export const TRIAL_DAYS: Partial<Record<OfferId, number>> = { annual: 60 };
+/**
+ * Prix de lancement : l'abonnement annuel à 40 € la première année (au lieu de 49,99 €), jusqu'au 31 décembre 2026 inclus,
+ * heure de Bruxelles. Les années suivantes sont au tarif normal. Pas d'essai gratuit : le premier paiement est immédiat.
+ */
+export { LAUNCH_END, launchActive } from "./launch";
+const LAUNCH_COUPON = "sw-lancement-2026";
+
+/** Réduction de lancement (9,99 € une seule fois). Créée toute seule dans Stripe au premier besoin, en test comme en production. */
+export async function launchCoupon(s: Stripe): Promise<string> {
+  try { return (await s.coupons.retrieve(LAUNCH_COUPON)).id; }
+  catch {
+    try { return (await s.coupons.create({ id: LAUNCH_COUPON, name: "Prix de lancement", amount_off: 999, currency: "eur", duration: "once" })).id; }
+    catch { return (await s.coupons.retrieve(LAUNCH_COUPON)).id; } // créée entre-temps par un autre appel
+  }
+}
 
 export function isOffer(v: unknown): v is OfferId {
   return v === "annual" || v === "monthly" || v === "weekly";

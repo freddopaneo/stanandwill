@@ -1,4 +1,4 @@
-import { anthropic, cors, json, MODEL, systemPrompt, userIdFrom, serviceClient, type DogCtx, type Triage } from "../../../lib/server";
+import { anthropic, cors, json, MODEL, systemPrompt, userIdFrom, serviceClient, type DogCtx, type Triage, hasPlan } from "../../../lib/server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["fra1"];
@@ -42,8 +42,8 @@ export async function POST(req: Request) {
   const uid = await userIdFrom(req);
   const sb = serviceClient();
   if (uid && sb) {
-    const { data: prof } = await sb.from("profiles").select("subscription_status").eq("id", uid).maybeSingle();
-    const premium = ["trial", "active", "founder"].includes(prof?.subscription_status ?? "none");
+    const { data: prof } = await sb.from("profiles").select("*").eq("id", uid).maybeSingle();
+    const premium = hasPlan(prof);
     if (!premium) {
       const { data: u } = await sb.from("usage").select("scans").eq("user_id", uid).eq("day", new Date().toISOString().slice(0, 10)).maybeSingle();
       if ((u?.scans ?? 0) >= FREE_PER_DAY) return json({ error: "quota" }, 402);

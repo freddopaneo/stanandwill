@@ -16,6 +16,8 @@ export interface PlanMail {
   interval: Interval | null;
   /** Fin de l'essai gratuit (secondes Unix), ou null s'il n'y a pas d'essai. */
   trialEnd: number | null;
+  /** Montant réellement réglé aujourd'hui, en centimes (différent du tarif pendant le prix de lancement). */
+  paid?: number | null;
   /** Adresse de l'app web, pour le bouton. */
   appUrl: string;
 }
@@ -38,6 +40,15 @@ export function priceLabel(m: Pick<PlanMail, "amount" | "currency" | "interval">
 export const frDate = (unix: number) =>
   new Date(unix * 1000).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Paris" });
 
+const GUARANTEE = "Satisfait ou remboursé pendant 14 jours : écrivez-nous à bonjour@stanandwill.com.";
+
+/** « Vous avez réglé 40,00 € aujourd'hui… » quand le premier paiement diffère du tarif (prix de lancement). */
+function paidNote(m: PlanMail): string {
+  if (m.paid == null || m.amount == null || m.paid === m.amount) return "";
+  const paid = priceLabel({ amount: m.paid, currency: m.currency, interval: null });
+  return ` Vous avez réglé ${paid} aujourd'hui (prix de lancement) ; le renouvellement se fera au tarif normal.`;
+}
+
 export function renderPlanActive(m: PlanMail): Rendered {
   const price = priceLabel(m);
   const plan = m.interval ? `plan ${NAME[m.interval]}` : "plan de prévention";
@@ -46,10 +57,10 @@ export function renderPlanActive(m: PlanMail): Rendered {
 
   const lead = trial
     ? `Votre essai gratuit est ouvert jusqu'au <strong>${esc(frDate(m.trialEnd!))}</strong>. Aucun montant n'a été prélevé aujourd'hui.`
-    : `Votre ${esc(plan)} est actif${price ? ` : <strong>${esc(price)}</strong>` : ""}. Merci de votre confiance.`;
+    : `Votre ${esc(plan)} est actif${price ? ` : <strong>${esc(price)}</strong>` : ""}. Merci de votre confiance.${esc(paidNote(m))}`;
   const after = trial
     ? `Sans action de votre part, votre ${esc(plan)}${price ? ` (${esc(price)})` : ""} démarrera ce jour-là. Vous pouvez l'arrêter avant, en un geste, sans rien payer.`
-    : "Il se renouvelle automatiquement à chaque échéance. Vous pouvez l'arrêter à tout moment, en un geste.";
+    : `Il se renouvelle automatiquement à chaque échéance. Vous pouvez l'arrêter à tout moment, en un geste. ${GUARANTEE}`;
 
   const body = `
 <h1 style="margin:0 0 12px;font-size:24px;line-height:30px;font-weight:800">${trial ? "C'est parti&nbsp;!" : "Votre plan est actif"}</h1>
@@ -77,8 +88,8 @@ export function renderPlanActive(m: PlanMail): Rendered {
   const text = [
     trial ? "C'est parti !" : "Votre plan est actif",
     "",
-    trial ? `Votre essai gratuit est ouvert jusqu'au ${frDate(m.trialEnd!)}. Aucun montant n'a été prélevé aujourd'hui.` : `Votre ${plan} est actif${price ? ` : ${price}` : ""}. Merci de votre confiance.`,
-    trial ? `Sans action de votre part, votre ${plan}${price ? ` (${price})` : ""} démarrera ce jour-là. Vous pouvez l'arrêter avant, sans rien payer.` : "Il se renouvelle automatiquement à chaque échéance. Vous pouvez l'arrêter à tout moment.",
+    trial ? `Votre essai gratuit est ouvert jusqu'au ${frDate(m.trialEnd!)}. Aucun montant n'a été prélevé aujourd'hui.` : `Votre ${plan} est actif${price ? ` : ${price}` : ""}. Merci de votre confiance.${paidNote(m)}`,
+    trial ? `Sans action de votre part, votre ${plan}${price ? ` (${price})` : ""} démarrera ce jour-là. Vous pouvez l'arrêter avant, sans rien payer.` : `Il se renouvelle automatiquement à chaque échéance. Vous pouvez l'arrêter à tout moment. ${GUARANTEE}`,
     "",
     `Ouvrir l'app : ${m.appUrl}`,
     "Gérer ou arrêter l'abonnement : Carnet → Réglages → « Gérer mon abonnement ».",

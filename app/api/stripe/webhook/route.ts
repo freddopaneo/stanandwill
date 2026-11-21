@@ -82,6 +82,7 @@ export async function POST(req: Request) {
               currency: price?.currency ?? "eur",
               interval: (price?.recurring?.interval as Interval | undefined) ?? null,
               trialEnd: status === "trial" ? sub.trial_end ?? null : null,
+              paid: session.amount_total ?? null,
               appUrl: origin,
             }, `plan-actif-${session.id}`);
           } catch (e: any) {

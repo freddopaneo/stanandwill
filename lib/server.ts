@@ -113,6 +113,18 @@ export function serviceClient() {
 }
 
 /**
+ * Le compte a-t-il le plan de prévention ? Abonné (trial, active) : oui. Code d'invitation (« founder ») : oui jusqu'à
+ * invite_expires_at ; sans date (anciens comptes), l'accès reste ouvert.
+ * Lire le profil avec select("*") : la colonne invite_expires_at n'existe qu'après la migration 0007.
+ */
+export function hasPlan(profile: { subscription_status?: string | null; invite_expires_at?: string | null } | null | undefined): boolean {
+  const st = profile?.subscription_status ?? "none";
+  if (st === "trial" || st === "active") return true;
+  if (st !== "founder") return false;
+  return !profile?.invite_expires_at || Date.parse(profile.invite_expires_at) > Date.now();
+}
+
+/**
  * En-têtes CORS : l'app web (PWA) est servie depuis un autre domaine que ce serveur, et un navigateur refuse de lire
  * une réponse qui ne les porte pas. L'origine « * » est sans risque ici : l'authentification passe par un jeton
  * envoyé explicitement (Bearer), jamais par des cookies.

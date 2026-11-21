@@ -39,6 +39,11 @@ export async function GET(req: Request) {
   const sb = serviceClient();
   if (!sb) return json({ error: "not_configured" }, 503);
 
+  // Codes d'invitation arrivés à leur terme : le statut repasse à « expired » (l'accès est déjà fermé par hasPlan).
+  const { error: eInv } = await sb.from("profiles").update({ subscription_status: "expired" })
+    .eq("subscription_status", "founder").lt("invite_expires_at", new Date().toISOString());
+  if (eInv) console.error("invite expiry", eInv.message);
+
   const { data: pending, error } = await sb.from("profiles").select("id, stripe_customer_id")
     .not("deletion_requested_at", "is", null).order("deletion_requested_at").limit(50);
   if (error) { console.error("purge list", error.message); return json({ error: "db_error" }, 502); }

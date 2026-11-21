@@ -2,6 +2,10 @@ import { Logo } from "./Logo";
 import { RiskStage } from "./RiskStage";
 import { CostBars } from "./CostBars";
 import { DogParade } from "./DogParade";
+import { launchActive } from "../lib/launch";
+
+/** La page est recalculée au plus une fois par heure : le prix de lancement disparaît tout seul après le 31 décembre. */
+export const revalidate = 3600;
 
 /** Adresse de l'application web (PWA). À remplacer par le domaine définitif via NEXT_PUBLIC_APP_URL. */
 const APP = process.env.NEXT_PUBLIC_APP_URL || "https://app.stanandwill.com";
@@ -25,6 +29,7 @@ const SOURCES: { label: string; href?: string }[] = [
 ];
 
 export default function Page() {
+  const launch = launchActive();
   return (
     <main>
       <div className="wrap">
@@ -121,14 +126,28 @@ export default function Page() {
 
       <section className="section" aria-labelledby="t-offre">
         <div className="wrap offer-wrap">
-          <h2 id="t-offre">Commencez gratuitement. Décidez ensuite.</h2>
-          <p className="sub center">Le bilan de votre chien est gratuit. Le plan de prévention complet s'ouvre avec un abonnement, sans engagement.</p>
+          <h2 id="t-offre">Commencez gratuitement. Abonnez-vous sans risque.</h2>
+          <p className="sub center">
+            Le bilan de votre chien est gratuit. Le plan de prévention complet s'ouvre avec un abonnement, sans
+            engagement, satisfait ou remboursé pendant 14 jours.
+          </p>
           <div className="plans">
             <div className="plan best">
-              <p className="plan-tag">2 mois gratuits</p>
-              <h3>Annuel</h3>
-              <p className="plan-price">49,99 € <span>par an</span></p>
-              <p className="plan-text">Deux mois offerts pour essayer, puis 4,17 € par mois. Vous arrêtez en un geste avant la fin de l'essai, sans rien payer.</p>
+              {launch ? (
+                <>
+                  <p className="plan-tag">Prix de lancement, jusqu'au 31 décembre</p>
+                  <h3>Annuel</h3>
+                  <p className="plan-price">40 € <span>la première année</span> <s>49,99 €</s></p>
+                  <p className="plan-text">Soit 3,33 € par mois. Ensuite 49,99 € par an, résiliable à tout moment.</p>
+                </>
+              ) : (
+                <>
+                  <p className="plan-tag">Le plus choisi</p>
+                  <h3>Annuel</h3>
+                  <p className="plan-price">49,99 € <span>par an</span></p>
+                  <p className="plan-text">Soit 4,17 € par mois : 58 % d'économie par rapport au mensuel.</p>
+                </>
+              )}
             </div>
             <div className="plan">
               <h3>Mensuel</h3>
@@ -142,7 +161,10 @@ export default function Page() {
             </div>
           </div>
           <a className="cta" href={APP}>Créer la fiche de mon chien</a>
-          <p className="hero-note">Jusqu'à 3 chiens sur le même compte. Paiement sécurisé par Stripe.</p>
+          <p className="hero-note">
+            Satisfait ou remboursé pendant 14 jours, sur simple e-mail. Jusqu'à 3 chiens sur le même compte. Paiement
+            sécurisé par Stripe.
+          </p>
         </div>
       </section>
 

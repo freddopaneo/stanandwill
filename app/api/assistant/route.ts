@@ -1,4 +1,4 @@
-import { anthropic, cors, json, MODEL, ruleTriage, systemPrompt, userIdFrom, serviceClient, type DogCtx, type Triage } from "../../../lib/server";
+import { anthropic, cors, json, MODEL, ruleTriage, systemPrompt, userIdFrom, serviceClient, type DogCtx, type Triage, hasPlan } from "../../../lib/server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["fra1"];
@@ -21,8 +21,8 @@ export async function POST(req: Request) {
   const sb = serviceClient();
   let premium = false;
   if (uid && sb) {
-    const { data: prof } = await sb.from("profiles").select("subscription_status").eq("id", uid).maybeSingle();
-    premium = ["trial", "active", "founder"].includes(prof?.subscription_status ?? "none");
+    const { data: prof } = await sb.from("profiles").select("*").eq("id", uid).maybeSingle();
+    premium = hasPlan(prof);
     if (!premium) {
       const { data: u } = await sb.from("usage").select("messages").eq("user_id", uid).eq("day", new Date().toISOString().slice(0, 10)).maybeSingle();
       if ((u?.messages ?? 0) >= FREE_PER_DAY) return json({ error: "quota", triage: "none", answer: "Vous avez utilisé vos 3 questions offertes aujourd'hui. Le plan de prévention donne des questions illimitées." }, 402);
