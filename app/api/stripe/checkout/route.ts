@@ -7,7 +7,7 @@ export const preferredRegion = ["fra1"];
 export async function OPTIONS() { return new Response(null, { status: 204, headers: cors }); }
 
 /**
- * POST { offer: "annual" | "monthly" | "weekly", origin } (jeton du compte obligatoire) → { url } : page de paiement Stripe.
+ * POST { offer: "annual" | "monthly", origin } (jeton du compte obligatoire) → { url } : page de paiement Stripe.
  * L'abonnement est rattaché au compte (client_reference_id + metadata.user_id) : c'est le webhook qui ouvrira l'accès.
  */
 export async function POST(req: Request) {

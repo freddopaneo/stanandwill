@@ -9,33 +9,33 @@
  *                           (ex. https://app.stanandwill.com)
  *   STRIPE_TAX              "1" pour le calcul automatique de la TVA (à activer d'abord dans Stripe Tax)
  *   STRIPE_PRICE_ANNUAL / STRIPE_PRICE_MONTHLY / STRIPE_PRICE_WEEKLY   (facultatif) identifiants price_… ; sinon les tarifs
- *                           sont retrouvés par leur « lookup key » : sw_annual_4999, sw_monthly_999, sw_weekly_699
+ *                           sont retrouvés par leur « lookup key » : sw_annual_6999, sw_monthly_999
  */
 import Stripe from "stripe";
 
 export type OfferId = "annual" | "monthly" | "weekly";
 
-export const LOOKUP_KEYS: Record<OfferId, string> = { annual: "sw_annual_4999", monthly: "sw_monthly_999", weekly: "sw_weekly_699" };
+export const LOOKUP_KEYS: Record<OfferId, string> = { annual: "sw_annual_6999", monthly: "sw_monthly_999", weekly: "sw_weekly_699" };
 const PRICE_ENV: Record<OfferId, string> = { annual: "STRIPE_PRICE_ANNUAL", monthly: "STRIPE_PRICE_MONTHLY", weekly: "STRIPE_PRICE_WEEKLY" };
 
 /**
- * Prix de lancement : l'abonnement annuel à 40 € la première année (au lieu de 49,99 €), jusqu'au 31 décembre 2026 inclus,
+ * Prix de lancement : l'abonnement annuel à 49,99 € la première année (au lieu de 69,99 €), jusqu'au 31 décembre 2026 inclus,
  * heure de Bruxelles. Les années suivantes sont au tarif normal. Pas d'essai gratuit : le premier paiement est immédiat.
  */
 export { LAUNCH_END, launchActive } from "./launch";
-const LAUNCH_COUPON = "sw-lancement-2026";
+const LAUNCH_COUPON = "sw-lancement-2026-20";
 
-/** Réduction de lancement (9,99 € une seule fois). Créée toute seule dans Stripe au premier besoin, en test comme en production. */
+/** Réduction de lancement (20 € une seule fois). Créée toute seule dans Stripe au premier besoin, en test comme en production. */
 export async function launchCoupon(s: Stripe): Promise<string> {
   try { return (await s.coupons.retrieve(LAUNCH_COUPON)).id; }
   catch {
-    try { return (await s.coupons.create({ id: LAUNCH_COUPON, name: "Prix de lancement", amount_off: 999, currency: "eur", duration: "once" })).id; }
+    try { return (await s.coupons.create({ id: LAUNCH_COUPON, name: "Prix de lancement", amount_off: 2000, currency: "eur", duration: "once" })).id; }
     catch { return (await s.coupons.retrieve(LAUNCH_COUPON)).id; } // créée entre-temps par un autre appel
   }
 }
 
 export function isOffer(v: unknown): v is OfferId {
-  return v === "annual" || v === "monthly" || v === "weekly";
+  return v === "annual" || v === "monthly"; // l'offre hebdomadaire n'est plus vendue (les abonnements existants continuent)
 }
 
 let client: Stripe | null = null;

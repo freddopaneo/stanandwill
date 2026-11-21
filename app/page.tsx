@@ -137,15 +137,15 @@ export default function Page() {
                 <>
                   <p className="plan-tag">Prix de lancement, jusqu'au 31 décembre</p>
                   <h3>Annuel</h3>
-                  <p className="plan-price">40 € <span>la première année</span> <s>49,99 €</s></p>
-                  <p className="plan-text">Soit 3,33 € par mois. Ensuite 49,99 € par an, résiliable à tout moment.</p>
+                  <p className="plan-price">49,99 € <span>la première année</span> <s>69,99 €</s></p>
+                  <p className="plan-text">Soit 4,17 € par mois. Ensuite 69,99 € par an, résiliable à tout moment.</p>
                 </>
               ) : (
                 <>
                   <p className="plan-tag">Le plus choisi</p>
                   <h3>Annuel</h3>
-                  <p className="plan-price">49,99 € <span>par an</span></p>
-                  <p className="plan-text">Soit 4,17 € par mois : 58 % d'économie par rapport au mensuel.</p>
+                  <p className="plan-price">69,99 € <span>par an</span></p>
+                  <p className="plan-text">Soit 5,83 € par mois : 42 % d'économie par rapport au mensuel.</p>
                 </>
               )}
             </div>
@@ -153,11 +153,6 @@ export default function Page() {
               <h3>Mensuel</h3>
               <p className="plan-price">9,99 € <span>par mois</span></p>
               <p className="plan-text">Sans engagement, résiliable à tout moment.</p>
-            </div>
-            <div className="plan">
-              <h3>Hebdomadaire</h3>
-              <p className="plan-price">6,99 € <span>par semaine</span></p>
-              <p className="plan-text">Pour un besoin ponctuel.</p>
             </div>
           </div>
           <a className="cta" href={APP}>Créer la fiche de mon chien</a>

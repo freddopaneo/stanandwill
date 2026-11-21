@@ -45,7 +45,7 @@ export function CostBars() {
       <div className="cost ours">
         <div className="cost-head">
           <span className="cost-label">Stan &amp; Will, pour prévenir toute l'année</span>
-          <span className="cost-value">49,99 € par an</span>
+          <span className="cost-value">69,99 € par an</span>
         </div>
         <div className="cost-track">
           <span className="cost-bar" style={{ width: "2%", transitionDelay: "620ms" }} />
