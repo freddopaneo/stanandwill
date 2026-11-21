@@ -1,12 +1,14 @@
 import type Stripe from "stripe";
 import { json, serviceClient } from "../../../../lib/server";
-import { appStatus, stripe } from "../../../../lib/stripe";
+import { appOrigin, appStatus, stripe } from "../../../../lib/stripe";
+import { sendPlanActive, type Interval } from "../../../../lib/planEmail";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["fra1"];
 
 /**
  * Webhook Stripe → profiles.subscription_status (pendant web de /api/revenuecat).
+ * À la confirmation d'un achat, envoie aussi l'e-mail « Votre plan est actif » (lib/planEmail.ts).
  * Dans Stripe : Développeurs → Webhooks → ajouter https://<site>/api/stripe/webhook avec les événements
  *   checkout.session.completed, customer.subscription.created, customer.subscription.updated, customer.subscription.deleted
  * puis copier le « secret de signature » (whsec_…) dans STRIPE_WEBHOOK_SECRET.
@@ -68,7 +70,25 @@ export async function POST(req: Request) {
         const subId = idOf(session.subscription);
         if (session.mode !== "subscription" || !subId) return json({ ok: true, ignored: "not_subscription" });
         const sub = await s.subscriptions.retrieve(subId);
-        return json({ ok: true, status: await apply(sub, session.client_reference_id ?? session.metadata?.user_id ?? null) });
+        const status = await apply(sub, session.client_reference_id ?? session.metadata?.user_id ?? null);
+        // Confirmation « Votre plan est actif » : une seule fois par achat, et jamais bloquante pour l'ouverture du plan.
+        const to = session.customer_details?.email ?? session.customer_email ?? null;
+        const origin = appOrigin(null);
+        if (to && origin && (status === "trial" || status === "active")) {
+          const price = sub.items.data[0]?.price;
+          try {
+            await sendPlanActive(to, {
+              amount: price?.unit_amount ?? null,
+              currency: price?.currency ?? "eur",
+              interval: (price?.recurring?.interval as Interval | undefined) ?? null,
+              trialEnd: status === "trial" ? sub.trial_end ?? null : null,
+              appUrl: origin,
+            }, `plan-actif-${session.id}`);
+          } catch (e: any) {
+            console.error("plan email", e?.message);
+          }
+        }
+        return json({ ok: true, status });
       }
       case "customer.subscription.created":
       case "customer.subscription.updated":
