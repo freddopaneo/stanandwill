@@ -18,8 +18,8 @@ export type OfferId = "annual" | "monthly" | "weekly";
 export const LOOKUP_KEYS: Record<OfferId, string> = { annual: "sw_annual_4999", monthly: "sw_monthly_999", weekly: "sw_weekly_699" };
 const PRICE_ENV: Record<OfferId, string> = { annual: "STRIPE_PRICE_ANNUAL", monthly: "STRIPE_PRICE_MONTHLY", weekly: "STRIPE_PRICE_WEEKLY" };
 
-/** Essai gratuit : uniquement sur l'offre annuelle, comme dans les stores. */
-export const TRIAL_DAYS: Partial<Record<OfferId, number>> = { annual: 7 };
+/** Essai gratuit : 2 mois offerts sur l'offre annuelle (carte enregistrée, premier prélèvement à la fin de l'essai). */
+export const TRIAL_DAYS: Partial<Record<OfferId, number>> = { annual: 60 };
 
 export function isOffer(v: unknown): v is OfferId {
   return v === "annual" || v === "monthly" || v === "weekly";

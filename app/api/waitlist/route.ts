@@ -31,7 +31,8 @@ export async function POST(req: Request) {
 
   const resend = new Resend(apiKey);
 
-  // 1) Contact dans le segment Fondateurs (données minimales : e-mail, prénom du chien, race, source)
+  // 1) Contact dans le segment Resend (données minimales : e-mail, prénom du chien, race, source).
+  //    Route appelée par l'app quand un maître demande à être prévenu de l'arrivée du plan dédié à sa race.
   const contact = await resend.contacts.create({
     email,
     firstName: dog || undefined,
@@ -52,24 +53,23 @@ export async function POST(req: Request) {
     await resend.emails.send({
       from,
       to: email,
-      subject: `Bienvenue parmi les fondateurs de Stan & Will${prenom}`,
+      subject: `C'est noté${prenom ? ` pour${prenom.replace(" et", "")}` : ""} : nous vous préviendrons`,
       text: [
-        `Bonjour${prenom ? " à vous" + prenom : ""},`,
+        "Bonjour,",
         "",
-        "Vous faites partie des 500 fondateurs de Stan & Will, l'app qui veille sur le dos, le poids et l'assiette de votre teckel.",
+        breed
+          ? `Vous avez demandé à être prévenu quand le plan de prévention dédié à sa race (${breed}) sera prêt dans Stan & Will. C'est noté.`
+          : "Vous avez demandé à être tenu au courant des nouveautés de Stan & Will. C'est noté.",
         "",
-        "Ce que cela vous donne :",
-        "• la première année à 29,99 € au lieu de 49,99 €, sans rien payer aujourd'hui ;",
-        "• l'accès avant tout le monde, en décembre 2026 ;",
-        "• une nouvelle de Stan et Will par semaine, pas plus : le chiffre de la semaine, un mythe démonté, les coulisses.",
+        "En attendant, l'app fonctionne déjà pour lui : bilan de vigilance, suivi du poids, balades, scanner et assistant.",
         "",
-        "Une question dès maintenant sur votre chien ? Répondez simplement à cet e-mail.",
+        "Une question sur votre chien ? Répondez simplement à cet e-mail.",
         "",
         "À très vite,",
         "Frédéric, Stan (7 ans, poil dur) et Will (3 ans, poil ras)",
         "",
         "—",
-        "Stan & Will est édité par Eureca Design SRL. Vos données sont hébergées en Europe et ne sont jamais revendues. Pour vous désinscrire, répondez « stop » à cet e-mail.",
+        "Stan & Will est édité par Eureca Design SRL. Vos données sont hébergées en Europe et ne sont jamais revendues. Pour ne plus recevoir nos e-mails, répondez « stop ».",
       ].join("\n"),
     });
   } catch (e) {
