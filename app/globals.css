@@ -127,7 +127,8 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 
 /* Pourquoi */
 .about { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: center; }
-.about img { border-radius: 24px; aspect-ratio: 4 / 5; width: 100%; object-fit: cover; }
+/* height: auto est indispensable : sans lui, la hauteur écrite dans la balise (1200) l'emporte et étire la photo */
+.about img { border-radius: 24px; aspect-ratio: 1 / 1; width: 100%; height: auto; object-fit: cover; object-position: 50% 20%; }
 .about blockquote { font-size: clamp(19px, 2vw, 23px); line-height: 1.4; color: var(--foret-fonce); border-left: 5px solid var(--miel); padding-left: 18px; margin-top: 22px; }
 .about-sign { font-weight: 800; color: var(--foret); margin-top: 14px; }
 
