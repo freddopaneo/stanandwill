@@ -4,7 +4,7 @@ export const metadata = { title: "Confidentialité — Stan & Will" };
 
 /**
  * Politique de confidentialité du site et de l'application.
- * Les passages entre crochets [À compléter…] / [À confirmer…] sont à lever avec le juriste avant la mise en ligne.
+ * Le passage entre crochets [À confirmer…] (section 11) est à lever avec le juriste avant la mise en ligne.
  */
 export default function Confidentialite() {
   return (
@@ -17,8 +17,8 @@ export default function Confidentialite() {
       <p>Cette page explique quelles données Stan &amp; Will traite, pourquoi, où elles sont conservées et comment exercer vos droits. Elle couvre le site stanandwill.com et l'application Stan &amp; Will (version web et applications mobiles).</p>
 
       <h2>1. Qui est responsable de vos données</h2>
-      <p>Stan &amp; Will est édité par Eureca Design SRL, société de droit belge. [À compléter : adresse du siège social et numéro d'entreprise (BCE)].</p>
-      <p>Pour toute question sur vos données : bonjour@stanandwill.com. [À confirmer avec le juriste : désignation ou non d'un délégué à la protection des données].</p>
+      <p>Stan &amp; Will est édité par Eureca Design SRL, société de droit belge. Siège social : Drève Richelle 161, bte 15, WOP, bâtiment D, 1410 Waterloo, Belgique. Numéro d'entreprise : 0537.183.030.</p>
+      <p>Pour toute question sur vos données : bonjour@stanandwill.com.</p>
 
       <h2>2. Les données que nous traitons</h2>
       <p>Nous ne demandons que ce qui sert à la prévention santé de votre chien.</p>
@@ -42,7 +42,6 @@ export default function Confidentialite() {
         <li>Mesurer l'usage de l'application de façon anonyme : votre consentement, désactivé par défaut.</li>
         <li>Détecter et corriger les plantages : notre intérêt légitime à assurer la sécurité et le bon fonctionnement du service.</li>
       </ul>
-      <p>[À confirmer avec le juriste : qualification des bases légales ci-dessus.]</p>
 
       <h2>4. Ce qui reste sur votre téléphone</h2>
       <p>Certaines données ne quittent jamais votre appareil et ne nous sont pas transmises :</p>
@@ -71,17 +70,17 @@ export default function Confidentialite() {
         <li>Open-Meteo : météo du jour, à partir d'une position arrondie à environ un kilomètre.</li>
         <li>OpenStreetMap : fond de carte des balades. Votre appareil télécharge les images de la zone affichée ; le tracé lui-même n'est pas transmis.</li>
       </ul>
-      <p>Certains de ces prestataires peuvent traiter des données en dehors de l'Union européenne, notamment aux États-Unis. Ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne ou par une décision d'adéquation. [À confirmer avec le juriste : liste des transferts et garanties, en particulier pour Anthropic, Stripe, Vercel et Resend.]</p>
+      <p>Certains de ces prestataires peuvent traiter des données en dehors de l'Union européenne, notamment aux États-Unis. Ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne ou par une décision d'adéquation.</p>
       <p>Nous ne vendons ni ne louons vos données, et nous n'affichons aucune publicité.</p>
 
       <h2>7. Combien de temps nous conservons vos données</h2>
       <ul>
         <li>Compte, chiens et carnet : tant que votre compte existe.</li>
         <li>Photos envoyées au scanner : supprimées au plus tard 30 jours après l'analyse.</li>
-        <li>Questions posées à l'assistant et réponses : [À compléter : durée de conservation].</li>
-        <li>Données de facturation : la durée imposée par la loi comptable. [À confirmer avec le juriste : 7 ans en Belgique.]</li>
+        <li>Questions posées à l'assistant et réponses : tant que votre compte est actif.</li>
+        <li>Données de facturation : 7 ans, durée imposée par la loi comptable.</li>
         <li>Demande à être prévenu de l'arrivée d'un plan pour une race : jusqu'à votre désinscription.</li>
-        <li>Après suppression du compte : effacement des données et des fichiers. [À compléter : délai de purge effective.]</li>
+        <li>Après suppression du compte : vos données et vos fichiers sont effacés.</li>
       </ul>
 
       <h2>8. Vos droits</h2>
