@@ -1,6 +1,7 @@
 import { Logo } from "./Logo";
 import { RiskStage } from "./RiskStage";
 import { CostBars } from "./CostBars";
+import { DogParade } from "./DogParade";
 
 /** Adresse de l'application web (PWA). À remplacer par le domaine définitif via NEXT_PUBLIC_APP_URL. */
 const APP = process.env.NEXT_PUBLIC_APP_URL || "https://stanandwill-jg95.vercel.app";
@@ -35,6 +36,8 @@ export default function Page() {
           <a className="header-link" href={APP}>Ouvrir l'app</a>
         </header>
       </div>
+
+      <DogParade />
 
       <section className="hero">
         <div className="wrap hero-inner">
@@ -108,27 +111,11 @@ export default function Page() {
             <p className="about-sign">Frédéric, avec Stan (7 ans, poil dur) et Will (3 ans, poil ras).</p>
             <p className="sub">
               Les groupes de passionnés ne manquent pas, et on y trouve du bon comme du moins bon. Ce qui manquait,
-              c'est un outil : toutes les informations utiles sur sa race au même endroit, triées, sourcées, avec ce
-              qui est prouvé et ce qui n'est qu'une légende de forum.
+              c'est un outil pour vous, le maître : toutes les informations utiles sur sa race au même endroit,
+              triées, sourcées, avec ce qui est prouvé et ce qui n'est qu'une légende de forum. Tout le contenu santé
+              est relu par notre vétérinaire référent.
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="section tinted" aria-labelledby="t-communaute">
-        <div className="wrap community">
-          <div>
-            <h2 id="t-communaute">Une communauté de maîtres qui préviennent ensemble.</h2>
-            <p className="sub">
-              Stan &amp; Will se construit avec celles et ceux qui l'utilisent. Vos retours font évoluer les plans de
-              prévention, et ce sont vos demandes qui décident des prochaines races.
-            </p>
-          </div>
-          <ul className="steps">
-            <li><strong>Aujourd'hui.</strong> Chacun suit son chien, partage ses balades et nous écrit ce qui lui manque.</li>
-            <li><strong>Ensuite.</strong> Les races les plus demandées reçoivent leur plan dédié.</li>
-            <li><strong>À venir.</strong> Un espace pour échanger entre maîtres d'une même race, autour de conseils vérifiés.</li>
-          </ul>
         </div>
       </section>
 

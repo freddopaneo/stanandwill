@@ -46,12 +46,18 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 }
 .cta:hover { transform: translateY(2px); box-shadow: 0 6px 0 -4px var(--miel-fonce); }
 
+/* Bandeau du haut : les races défilent au trait */
+.parade { overflow: hidden; border-bottom: 1.5px solid var(--sauge); color: var(--foret); margin-top: 4px; }
+.parade-track { display: flex; width: max-content; animation: parade 46s linear infinite; }
+.parade-dog { width: 150px; height: 90px; flex: none; margin: 0 26px -1px; stroke-width: 3.4; }
+@keyframes parade { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
 /* Accueil : tout est centré */
-.hero { padding: 36px 0 64px; }
+.hero { padding: 28px 0 64px; }
 .hero-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
 .hero-kicker { font-weight: 800; font-size: 15px; color: var(--foret); background: var(--sauge-clair); padding: 7px 16px; border-radius: 999px; }
-.hero h1 { font-size: clamp(34px, 5.6vw, 64px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; color: var(--foret-fonce); max-width: 19ch; margin: 22px 0 0; text-wrap: balance; }
-.hero-lead { font-size: clamp(17px, 1.8vw, 20px); color: var(--texte-doux); max-width: 60ch; margin: 22px 0 30px; }
+.hero h1 { font-size: clamp(32px, 4.5vw, 56px); line-height: 1.06; font-weight: 800; letter-spacing: -0.03em; color: var(--foret-fonce); width: 100%; margin: 22px 0 0; text-wrap: balance; }
+.hero-lead { font-size: clamp(17px, 1.8vw, 21px); color: var(--texte-doux); width: 100%; margin: 22px 0 30px; text-wrap: pretty; }
 .hero-note { font-size: 14px; color: var(--texte-doux); margin-top: 18px; text-align: center; }
 
 /* Bandeau des races : la pièce centrale de la page */
@@ -66,12 +72,12 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 }
 .stage-tabs button.on { background: var(--miel); color: var(--foret-fonce); border-color: var(--miel); }
 .stage-body { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; margin-top: 18px; }
-.dog { position: relative; background: var(--creme); border-radius: 22px; overflow: hidden; }
-.dog svg { width: 100%; height: auto; display: block; animation: arrive .45s ease both; }
+.dog { position: relative; color: var(--creme); }
+.dog svg { width: 100%; height: auto; display: block; animation: arrive .45s ease both; stroke-width: 2.4; }
 .spot { position: absolute; width: 0; height: 0; }
-.spot-dot { position: absolute; left: -9px; top: -9px; width: 18px; height: 18px; border-radius: 50%; background: var(--miel); border: 3px solid var(--creme); }
-.spot-ring { position: absolute; left: -9px; top: -9px; width: 18px; height: 18px; border-radius: 50%; background: var(--miel); animation: pulse 1.8s ease-out infinite; }
-.spot-label { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); white-space: nowrap; background: var(--foret-fonce); color: var(--creme); font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 999px; animation: rise .45s ease both; }
+.spot-dot { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--miel); }
+.spot-ring { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--miel); animation: pulse 1.8s ease-out infinite; }
+.spot-label { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); white-space: nowrap; background: var(--miel); color: var(--foret-fonce); font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 999px; animation: rise .45s ease both; }
 .spot.below .spot-label { bottom: auto; top: 20px; }
 @keyframes pulse { from { transform: scale(1); opacity: .75; } to { transform: scale(4.2); opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
@@ -116,15 +122,6 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 .about blockquote { font-size: clamp(19px, 2vw, 23px); line-height: 1.4; color: var(--foret-fonce); border-left: 5px solid var(--miel); padding-left: 18px; margin-top: 22px; }
 .about-sign { font-weight: 800; color: var(--foret); margin-top: 14px; }
 
-/* Communauté */
-.community { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-.steps { list-style: none; border-left: 3px solid var(--foret); }
-.steps li { padding: 4px 0 22px 22px; position: relative; font-size: 17px; color: var(--texte-doux); }
-.steps li::before { content: ""; position: absolute; left: -9px; top: 9px; width: 15px; height: 15px; border-radius: 50%; background: var(--foret); }
-.steps li:last-child { padding-bottom: 4px; }
-.steps li:last-child::before { background: #F3EEE2; border: 3px solid var(--foret); }
-.steps strong { color: var(--foret-fonce); }
-
 /* Offre */
 .offer-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .offer-wrap h2 { max-width: none; }
@@ -147,18 +144,27 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 
 @media (max-width: 860px) {
   .section, .band { padding: 52px 0; }
-  .stage-body, .split, .about, .community { grid-template-columns: 1fr; gap: 26px; }
+  .stage-body, .split, .about { grid-template-columns: 1fr; gap: 26px; }
   .contents { grid-template-columns: 1fr; }
   .content, .content:not(:nth-child(3n + 1)) { padding: 20px 0; border-left: 0; }
   .plans { grid-template-columns: 1fr; }
   .about img { max-height: 420px; }
   .stage { padding: 16px; border-radius: 22px; }
   .header-link { padding: 8px 12px; font-size: 14px; }
+  .parade-dog { width: 104px; height: 62px; margin: 0 16px -1px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .spot-ring, .spot-label, .stage-text, .stage-progress span.on::after { animation: none; }
+  .spot-ring, .spot-label, .stage-text, .stage-progress span.on::after, .parade-track, .dog svg { animation: none; }
   .cost-bar { transition: none; }
   .cta { transition: none; }
 }
+
+/* Pages de texte (confidentialité) */
+.legal { max-width: 760px; padding-bottom: 72px; }
+.legal h1 { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; color: var(--foret-fonce); margin-top: 8px; }
+.legal h2 { font-size: 21px; max-width: none; color: var(--foret); margin: 30px 0 8px; letter-spacing: -0.01em; }
+.legal p { font-size: 16.5px; margin-top: 10px; }
+.legal ul { margin: 10px 0 0 20px; display: grid; gap: 6px; font-size: 16.5px; }
+.legal-version { color: var(--texte-doux); }
