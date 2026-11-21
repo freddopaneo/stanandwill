@@ -4,7 +4,7 @@ import { CostBars } from "./CostBars";
 import { DogParade } from "./DogParade";
 
 /** Adresse de l'application web (PWA). À remplacer par le domaine définitif via NEXT_PUBLIC_APP_URL. */
-const APP = process.env.NEXT_PUBLIC_APP_URL || "https://stanandwill-jg95.vercel.app";
+const APP = process.env.NEXT_PUBLIC_APP_URL || "https://app.stanandwill.com";
 
 const CONTENTS: { title: string; text: string }[] = [
   { title: "Son bilan de vigilance", text: "Trois minutes de questions sur sa race, son âge, son poids et sa silhouette. Vous repartez avec ses points de vigilance, classés par priorité." },
