@@ -47,12 +47,21 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
 .cta:hover { transform: translateY(2px); box-shadow: 0 6px 0 -4px var(--miel-fonce); }
 
 /* Bandeau du haut : les races défilent au trait */
-.parade { overflow: hidden; border-bottom: 1.5px solid var(--sauge); color: var(--foret); margin-top: 4px; }
+.parade { overflow: hidden; border-bottom: 1.5px solid var(--sauge); color: var(--foret); margin-top: 4px; padding-top: 30px; }
 .parade-track { display: flex; width: max-content; animation: parade 46s linear infinite; }
-.parade-dog { width: 150px; height: 90px; flex: none; margin: 0 26px -1px; stroke-width: 3.4; }
-@keyframes parade { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.parade-track.halt { animation-play-state: paused; }
+.parade-dog { position: relative; display: block; width: 150px; height: 90px; flex: none; margin: 0 26px -1px; }
+.parade-dog svg { display: block; width: 100%; height: 100%; stroke-width: 3.4; transform-origin: 50% 100%; }
+.parade-dog.bark svg { animation: bark 0.55s ease-in-out 0.25s 2; }
+.woof { position: absolute; transform: translateX(-50%); white-space: nowrap; background: #fff; color: var(--foret-fonce); border: 1.5px solid var(--foret); border-radius: 14px; padding: 3px 11px; font-size: 13px; font-weight: 800; line-height: 1.3; animation: woof 0.25s ease-out both; }
+.woof::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 9px; height: 9px; margin-left: -5px; background: #fff; border-right: 1.5px solid var(--foret); border-bottom: 1.5px solid var(--foret); transform: rotate(45deg); }
+/* Les chiens regardent vers la droite : la file avance donc vers la droite */
+@keyframes parade { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes bark { 0%, 100% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-5px) rotate(-2.5deg); } }
+@keyframes woof { from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.85); } to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } }
 
 /* Accueil : tout est centré */
+.hero h1 span { display: inline-block; }
 .hero { padding: 28px 0 64px; }
 .hero-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
 .hero-kicker { font-weight: 800; font-size: 15px; color: var(--foret); background: var(--sauge-clair); padding: 7px 16px; border-radius: 999px; }
@@ -152,6 +161,7 @@ h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; l
   .stage { padding: 16px; border-radius: 22px; }
   .header-link { padding: 8px 12px; font-size: 14px; }
   .parade-dog { width: 104px; height: 62px; margin: 0 16px -1px; }
+  .woof { font-size: 12px; padding: 2px 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

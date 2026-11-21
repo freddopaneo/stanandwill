@@ -42,11 +42,11 @@ export default function Page() {
       <section className="hero">
         <div className="wrap hero-inner">
           <p className="hero-kicker">L'application de prévention santé des petits chiens</p>
-          <h1>Un petit chien cache longtemps quand ça ne va pas. Apprenez à le voir avant.</h1>
+          <h1><span>Il ne vous dira jamais qu'il a mal.</span> <span>La prévention, c'est le voir à temps.</span></h1>
           <p className="hero-lead">
-            Dos fragile, souffle court, dents, cœur : chaque petite race a ses points faibles, et les premiers signes
-            passent souvent inaperçus. Stan &amp; Will vous dit quoi surveiller chez le vôtre, semaine après semaine,
-            pour agir pendant qu'il est encore temps.
+            Un petit chien cache sa douleur jusqu'au jour où il n'y arrive plus. Dos, souffle, dents, cœur : chaque
+            race a ses points faibles, et les premiers signes tiennent à presque rien. Stan &amp; Will vous apprend à
+            les reconnaître chez le vôtre, semaine après semaine, pour agir tant qu'il est encore temps.
           </p>
           <a className="cta" href={APP}>Créer la fiche de mon chien</a>
           <p className="hero-note">Trois minutes, gratuit, sans carte bancaire. S'installe sur votre téléphone, sans passer par un store.</p>

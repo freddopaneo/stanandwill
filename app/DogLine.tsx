@@ -45,13 +45,15 @@ export const DOGS: Record<BreedId, Drawing> = {
   },
 };
 
-export function DogLine({ breed, className }: { breed: BreedId; className?: string }) {
+export function DogLine({ breed, className, lookAtMe }: { breed: BreedId; className?: string; lookAtMe?: boolean }) {
   const d = DOGS[breed];
   return (
     <svg className={className} viewBox="0 0 400 240" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={d.body} />
       <path d={d.ear} />
-      <circle cx={d.eye[0]} cy={d.eye[1]} r="2.4" fill="currentColor" stroke="none" />
+      <circle cx={d.eye[0]} cy={d.eye[1]} r={lookAtMe ? 3.4 : 2.4} fill="currentColor" stroke="none" />
+      {/* Le second œil n'apparaît que lorsque le chien se tourne vers le visiteur */}
+      {lookAtMe && <circle cx={d.eye[0] - 14} cy={d.eye[1] + 1} r="3.4" fill="currentColor" stroke="none" />}
     </svg>
   );
 }
