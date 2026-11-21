@@ -1,140 +1,181 @@
 import { Logo } from "./Logo";
-import { WaitlistForm } from "./WaitlistForm";
+import { RiskStage } from "./RiskStage";
+import { CostBars } from "./CostBars";
 
-const Icon = ({ d }: { d: string }) => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d={d} />
-  </svg>
-);
+/** Adresse de l'application web (PWA). À remplacer par le domaine définitif via NEXT_PUBLIC_APP_URL. */
+const APP = process.env.NEXT_PUBLIC_APP_URL || "https://stanandwill-jg95.vercel.app";
+
+const CONTENTS: { title: string; text: string }[] = [
+  { title: "Son bilan de vigilance", text: "Trois minutes de questions sur sa race, son âge, son poids et sa silhouette. Vous repartez avec ses points de vigilance, classés par priorité." },
+  { title: "Un geste par semaine", text: "Un plan de prévention court et concret : quoi vérifier, quoi changer, quoi laisser tomber. Chaque conseil indique sa source." },
+  { title: "Ses balades comptées", text: "Durée, distance, pas estimés selon son gabarit, objectif du jour. À l'arrivée : la carte du parcours et vos photos." },
+  { title: "« Peut-il manger ça ? »", text: "Tapez un aliment ou prenez une photo : réponse immédiate, avec la conduite à tenir s'il en a déjà avalé." },
+  { title: "Une réponse à 2 h du matin", text: "L'assistant ne joue pas au vétérinaire : il vous dit « à surveiller », « à montrer cette semaine » ou « urgence », et pourquoi." },
+  { title: "Son carnet de santé", text: "Poids, vaccins, événements, fiche d'urgence : tout ce que le vétérinaire vous demandera, déjà rangé." },
+];
+
+const SOURCES: { label: string; href?: string }[] = [
+  { label: "Dachshund IVDD UK, enquête de santé sur les teckels (maladie du dos, âge d'apparition)" },
+  { label: "Royal Veterinary College, programme VetCompass, 2021 : santé du bouledogue français", href: "https://rvc.ac.uk/vetcompass/news/stop-and-think-before-buying-a-flat-faced-dog-french-bulldog-no-longer-a-typical-dog" },
+  { label: "O'Neill et al., BMC Veterinary Research, 2020 : affections courantes du chihuahua", href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7014602" },
+  { label: "Swift et al., Journal of Veterinary Internal Medicine, 2017 : maladie valvulaire du cavalier King Charles", href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5259630" },
+  { label: "LeComparateurAssurance, frais vétérinaires pour un chien, 2026", href: "https://www.lecomparateurassurance.com/15-prix-tarifs/106075-prix-soins-veterinaires-france" },
+  { label: "Ymanci, prix des pathologies lourdes du chien, tarifs 2025-2026", href: "https://ymanci.fr/assurance-animaux/actualites/sous-estimation-prix-pathologies-lourdes-chien-chat/" },
+];
 
 export default function Page() {
   return (
     <main>
       <div className="wrap">
         <header className="header">
-          <a className="logo" href="#">
+          <a className="logo" href="/">
             <Logo size={46} />
             Stan &amp; Will
           </a>
-          <span className="badge">Prévention santé personnalisée par race</span>
+          <a className="header-link" href={APP}>Ouvrir l'app</a>
         </header>
+      </div>
 
-        <section className="hero">
-          <div>
-            <h1>
-              Stan a 7 ans, Will en a 3. <em>L'un a passé l'âge critique, l'autre y entre.</em>
-            </h1>
-            <p className="lead">
-              Un teckel sur quatre connaîtra une hernie discale, le plus souvent entre 4 et 8 ans. Stan &amp; Will est
-              l'app qui veille sur le dos, le poids et l'assiette de votre teckel, avec des conseils validés par des
-              vétérinaires, et qui vous dit ce qui est prouvé et ce qui n'est qu'un mythe de forum.
-            </p>
-            <WaitlistForm />
-          </div>
-          <div>
-            <div className="hero-img">
-              <img src="/stan-will-jardin.jpg" alt="Stan, teckel à poil dur, et Will, teckel à poil ras, assis dans l'herbe" width={1200} height={1600} />
-            </div>
-            <p className="caption">Stan (à gauche, poil dur, 7 ans) et Will (poil ras, 3 ans).</p>
-          </div>
-        </section>
-
-        <section className="stats" aria-label="Chiffres clés">
-          <div className="stat">
-            <div className="n">1 sur 4</div>
-            <div className="t">des teckels aura une maladie du dos au cours de sa vie, 10 à 12 fois plus que les autres chiens.</div>
-            <div className="s">Source : Dachshund IVDD UK, enquête sur 2 000 chiens</div>
-          </div>
-          <div className="stat">
-            <div className="n">4 à 8 ans</div>
-            <div className="t">la fenêtre où 76 % des hernies discales se déclarent. C'est maintenant que la prévention compte.</div>
-            <div className="s">Source : Dachshund IVDD UK</div>
-          </div>
-          <div className="stat">
-            <div className="n">1 200 à 2 800 €</div>
-            <div className="t">le coût d'une chirurgie du dos avec rééducation, souvent exclu par l'assurance si elle est prise trop tard.</div>
-            <div className="s">Source : HelloSafe, guide teckel 2026</div>
-          </div>
-        </section>
-
-        <section className="section" id="app">
-          <h2>Ce que l'app fera pour votre chien</h2>
-          <p className="sub">
-            Une réponse utile en moins d'une minute, puis un rituel de 60 secondes par jour. Stan s'occupe de la santé,
-            Will de l'assiette.
+      <section className="hero">
+        <div className="wrap hero-inner">
+          <p className="hero-kicker">L'application de prévention santé des petits chiens</p>
+          <h1>Un petit chien cache longtemps quand ça ne va pas. Apprenez à le voir avant.</h1>
+          <p className="hero-lead">
+            Dos fragile, souffle court, dents, cœur : chaque petite race a ses points faibles, et les premiers signes
+            passent souvent inaperçus. Stan &amp; Will vous dit quoi surveiller chez le vôtre, semaine après semaine,
+            pour agir pendant qu'il est encore temps.
           </p>
-          <div className="features">
-            <div className="feature">
-              <div className="ico"><Icon d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z" /></div>
-              <div>
-                <h3>Le plan dos de votre teckel</h3>
-                <p>Poids de forme, signes à surveiller, gestes qui comptent vraiment (et ceux qui ne servent à rien), protocole « que faire dans l'heure » en cas de doute.</p>
-                <span className="who">Stan</span>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="ico"><Icon d="M4 7h16M4 12h16M4 17h10M7 3v4M12 3v4M17 3v4" /></div>
-              <div>
-                <h3>Scan des croquettes</h3>
-                <p>Scannez le code-barres : note claire, points forts et faibles, ration en grammes calculée pour votre chien, alternatives au même prix.</p>
-                <span className="who">Will</span>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="ico"><Icon d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z" /></div>
-              <div>
-                <h3>« Peut-il manger ça ? »</h3>
-                <p>Une photo de ce qu'il réclame à table, une réponse immédiate en trois niveaux, avec la quantité tolérée.</p>
-                <span className="who">Will</span>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="ico"><Icon d="M8 10h8M8 14h5M21 12a9 9 0 11-4.2-7.6L21 3v9z" /></div>
-              <div>
-                <h3>L'assistant qui ne joue pas au vétérinaire</h3>
-                <p>Posez vos questions à 2 h du matin : il vous dit « surveiller », « consulter cette semaine » ou « urgence », et vous oriente vers un vrai vétérinaire quand il le faut.</p>
-                <span className="who">Stan</span>
-              </div>
-            </div>
-          </div>
-        </section>
+          <a className="cta" href={APP}>Créer la fiche de mon chien</a>
+          <p className="hero-note">Trois minutes, gratuit, sans carte bancaire. S'installe sur votre téléphone, sans passer par un store.</p>
+        </div>
+      </section>
 
-        <section className="section about">
-          <img src="/stan-will-salon.jpg" alt="Will et Stan assis sur un tapis clair" width={1000} height={1333} />
+      <section className="band" aria-labelledby="t-races">
+        <div className="wrap">
+          <h2 id="t-races">Chaque race a son point faible. Le connaître, c'est déjà le protéger.</h2>
+          <RiskStage />
+          <p className="band-note">
+            Plans de prévention complets aujourd'hui : teckel, bouledogue français, chihuahua, spitz nain et cavalier
+            King Charles. Autre race ou croisé ? Le bilan général fonctionne déjà, et vous pouvez demander le plan
+            dédié depuis l'app.
+          </p>
+        </div>
+      </section>
+
+      <section className="section" aria-labelledby="t-couts">
+        <div className="wrap split">
           <div>
-            <span className="pill">Pourquoi cette app existe</span>
-            <h2 style={{ marginTop: 14 }}>On a construit l'app qu'on aurait voulu avoir pour eux.</h2>
+            <h2 id="t-couts">Le jour où ça arrive, on se demande toujours si on aurait pu le voir venir.</h2>
+            <p className="sub">
+              Un chien qui hésite devant le canapé. Une toux après le jeu. Une haleine qui change. Pris à temps, ce
+              sont des habitudes à ajuster. Pris tard, ce sont des nuits d'inquiétude, et des factures que personne
+              n'avait prévues.
+            </p>
+            <p className="sub">
+              La prévention ne supprime pas le risque. Elle vous donne des mois d'avance, et des gestes simples pour
+              les utiliser.
+            </p>
+          </div>
+          <CostBars />
+        </div>
+      </section>
+
+      <section className="section tinted" aria-labelledby="t-contenu">
+        <div className="wrap">
+          <h2 id="t-contenu">Tout ce qu'il faut savoir sur lui, dans votre poche.</h2>
+          <p className="sub">Six outils qui tiennent dans une seule application, pensés pour deux minutes par jour.</p>
+          <div className="contents">
+            {CONTENTS.map((c) => (
+              <div className="content" key={c.title}>
+                <h3>{c.title}</h3>
+                <p>{c.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" aria-labelledby="t-pourquoi">
+        <div className="wrap about">
+          <img src="/stan-will-jardin.jpg" alt="Stan, teckel à poil dur, et Will, teckel à poil ras, assis dans l'herbe" width={900} height={1200} />
+          <div>
+            <h2 id="t-pourquoi">On a construit l'app qu'on aurait voulu avoir pour eux.</h2>
             <blockquote>
               « Quand Stan a eu 4 ans, j'ai cherché partout quoi faire pour son dos. J'ai trouvé des forums, des avis
-              contradictoires et beaucoup de peur. Rien de clair, rien de sourcé. Avec Will qui arrive à l'âge critique,
-              j'ai décidé de le construire. »
+              contradictoires et beaucoup de peur. Rien de clair, rien de sourcé. Avec Will qui arrive à l'âge
+              critique, j'ai décidé de le construire. »
             </blockquote>
-            <p style={{ color: "var(--texte-doux)" }}>
-              Frédéric, fondateur, et ses deux teckels. Chaque conseil de l'app porte sa source et son niveau de
-              preuve, et tout le contenu santé est relu par un vétérinaire référent. Nous reversons 1 € par abonnement
-              fondateur à l'association Teckels Sans Doux Foyer.
-            </p>
-            <p style={{ marginTop: 18 }}>
-              <a className="btn" href="#inscription" style={{ display: "inline-block", width: "auto", textDecoration: "none" }}>
-                Rejoindre les 500 fondateurs
-              </a>
+            <p className="about-sign">Frédéric, avec Stan (7 ans, poil dur) et Will (3 ans, poil ras).</p>
+            <p className="sub">
+              Les groupes de passionnés ne manquent pas, et on y trouve du bon comme du moins bon. Ce qui manquait,
+              c'est un outil : toutes les informations utiles sur sa race au même endroit, triées, sourcées, avec ce
+              qui est prouvé et ce qui n'est qu'une légende de forum.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <footer className="footer">
+      <section className="section tinted" aria-labelledby="t-communaute">
+        <div className="wrap community">
           <div>
-            © 2026 Stan &amp; Will · Édité par Eureca Design SRL (Belgique) · <a href="/confidentialite">Confidentialité</a>
+            <h2 id="t-communaute">Une communauté de maîtres qui préviennent ensemble.</h2>
+            <p className="sub">
+              Stan &amp; Will se construit avec celles et ceux qui l'utilisent. Vos retours font évoluer les plans de
+              prévention, et ce sont vos demandes qui décident des prochaines races.
+            </p>
           </div>
-          <div>
-            contact : <a href="mailto:bonjour@stanandwill.com">bonjour@stanandwill.com</a> · Instagram &amp; TikTok : @stanandwill
-          </div>
-        </footer>
-      </div>
+          <ul className="steps">
+            <li><strong>Aujourd'hui.</strong> Chacun suit son chien, partage ses balades et nous écrit ce qui lui manque.</li>
+            <li><strong>Ensuite.</strong> Les races les plus demandées reçoivent leur plan dédié.</li>
+            <li><strong>À venir.</strong> Un espace pour échanger entre maîtres d'une même race, autour de conseils vérifiés.</li>
+          </ul>
+        </div>
+      </section>
 
-      <div className="sticky-cta">
-        <a className="btn" href="#inscription">Je rejoins les fondateurs · 29,99 € au lieu de 49,99 €</a>
-      </div>
+      <section className="section" aria-labelledby="t-offre">
+        <div className="wrap offer-wrap">
+          <h2 id="t-offre">Commencez gratuitement. Décidez ensuite.</h2>
+          <p className="sub center">Le bilan de votre chien est gratuit. Le plan de prévention complet s'ouvre avec un abonnement, sans engagement.</p>
+          <div className="plans">
+            <div className="plan best">
+              <p className="plan-tag">2 mois gratuits</p>
+              <h3>Annuel</h3>
+              <p className="plan-price">49,99 € <span>par an</span></p>
+              <p className="plan-text">Deux mois offerts pour essayer, puis 4,17 € par mois. Vous arrêtez en un geste avant la fin de l'essai, sans rien payer.</p>
+            </div>
+            <div className="plan">
+              <h3>Mensuel</h3>
+              <p className="plan-price">9,99 € <span>par mois</span></p>
+              <p className="plan-text">Sans engagement, résiliable à tout moment.</p>
+            </div>
+            <div className="plan">
+              <h3>Hebdomadaire</h3>
+              <p className="plan-price">6,99 € <span>par semaine</span></p>
+              <p className="plan-text">Pour un besoin ponctuel.</p>
+            </div>
+          </div>
+          <a className="cta" href={APP}>Créer la fiche de mon chien</a>
+          <p className="hero-note">Jusqu'à 3 chiens sur le même compte. Paiement sécurisé par Stripe.</p>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <div className="wrap">
+          <details className="sources">
+            <summary>Sources des chiffres de cette page</summary>
+            <ul>
+              {SOURCES.map((s) => (
+                <li key={s.label}>{s.href ? <a href={s.href} rel="noopener">{s.label}</a> : s.label}</li>
+              ))}
+            </ul>
+          </details>
+          <p>Stan &amp; Will ne pose pas de diagnostic et ne remplace pas une consultation vétérinaire.</p>
+          <p>
+            © 2026 Stan &amp; Will, édité par Eureca Design SRL (Belgique). <a href="/confidentialite">Confidentialité</a>.
+            Contact : <a href="mailto:bonjour@stanandwill.com">bonjour@stanandwill.com</a>
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -5,13 +5,13 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://stanandwill.vercel.app
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
-  title: "Stan & Will — l'app qui veille sur votre teckel",
+  title: "Stan & Will, la prévention santé des petits chiens",
   description:
-    "Dos, poids, assiette : le compagnon santé de votre teckel, validé par des vétérinaires. Lancement décembre 2026. Les 500 premiers inscrits paient 29,99 € la première année.",
+    "Dos, souffle, dents, cœur : chaque petite race a ses points faibles. Stan & Will vous dit quoi surveiller chez votre chien, semaine après semaine. Bilan gratuit, 2 mois offerts sur l'abonnement annuel.",
   openGraph: {
-    title: "Stan & Will — l'app qui veille sur votre teckel",
+    title: "Stan & Will, la prévention santé des petits chiens",
     description:
-      "Stan a 7 ans, Will en a 3. L'un a passé l'âge critique, l'autre y entre. On a construit l'app qu'on aurait voulu avoir pour eux.",
+      "Un petit chien cache longtemps quand ça ne va pas. Apprenez à le voir avant : bilan par race, gestes de prévention, balades, carnet de santé.",
     images: [{ url: "/og.jpg", width: 1200, height: 630 }],
     locale: "fr_FR",
     type: "website",
