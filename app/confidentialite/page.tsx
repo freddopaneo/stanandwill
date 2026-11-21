@@ -4,7 +4,7 @@ export const metadata = { title: "Confidentialité — Stan & Will" };
 
 /**
  * Politique de confidentialité du site et de l'application.
- * Le passage entre crochets [À confirmer…] (section 11) est à lever avec le juriste avant la mise en ligne.
+ * Texte validé par l'éditeur ; relecture juridique en cours.
  */
 export default function Confidentialite() {
   return (
@@ -101,7 +101,7 @@ export default function Confidentialite() {
       <p>Les échanges sont chiffrés. Chaque compte n'accède qu'à ses propres données, par des règles appliquées au niveau de la base de données. Les clés qui donnent accès aux services tiers ne sont jamais placées dans l'application.</p>
 
       <h2>11. Mineurs</h2>
-      <p>Stan &amp; Will s'adresse aux personnes majeures. [À confirmer avec le juriste : âge minimal et mention à retenir.]</p>
+      <p>Stan &amp; Will s'adresse aux personnes majeures.</p>
 
       <h2>12. Évolution de cette politique</h2>
       <p>Nous mettons cette page à jour quand l'application évolue. En cas de changement important, nous vous prévenons dans l'application ou par e-mail avant son entrée en vigueur.</p>
